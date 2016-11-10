@@ -1,0 +1,2 @@
+export LDFLAGS="-lc++"
+export ANDROID_NDK=/home/cosnita/work/ndk12b
