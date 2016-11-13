@@ -48,28 +48,20 @@ cd v8
 export LDFLAGS="-lc++"
 export ANDROID_NDK=/home/cosnita/work/ndk12b
 make -j4 snapshot=off i18nsupport=off android_arm64.release
+mkdir -p dist/release/arm64
 ```
 
 ### Make ARM
 
 ```bash
-sudo apt-get install gcc-4.9-arm-linux-gnueabihf g++-4.9-arm-linux-gnueabihf g++-4.9-multilib-arm-linux-gnueabihf libc6-armhf-cross
-nano ./tools/cross_build_gcc.sh
-
-# paste the content from the cross_build_gcc.sh snippet.
-
-./tools/cross_build_gcc.sh /usr/bin/arm-linux-gnueabihf- arm.release arm_version=7 armfpu=vfpv3-d16 armfloatabi=hard armthumb=on i18nsupport=off snapshot=off -j4
+export LDFLAGS="-lc++"
+export ANDROID_NDK=/home/cosnita/work/ndk12b
+make android_arm.release arm_version=7 i18nsupport=off snapshot=off -j4
+mkdir -p dist/release/arm
+./build_fat.sh arm
 ```
 
-```bash
-# cross_build_gcc.sh snippet
-export CXX=$1g++-4.9
-export AR=$1ar
-export RANLIB=$1ranlib
-export CC=$1gcc-4.9
-export LD=$1g++-4.9
-export LINK=$1g++-4.9
-```
+TODO I must build the arm version on a clean machine as I completely destroyed my current installation.
 
 ### Make x86
 
@@ -77,6 +69,8 @@ export LINK=$1g++-4.9
 export LDFLAGS="-lc++"
 export ANDROID_NDK=/home/cosnita/work/ndk12b
 make -j4 snapshot=off i18nsupport=off android_ia32.release
+mkdir -p dist/release/ia32
+./build_fat.sh ia32
 ```
 
 ### Make x86_64
@@ -85,4 +79,6 @@ make -j4 snapshot=off i18nsupport=off android_ia32.release
 export LDFLAGS="-lc++"
 export ANDROID_NDK=/home/cosnita/work/ndk12b
 make -j4 snapshot=off i18nsupport=off android_x64.release
+mkdir -p dist/release/x86_64
+./build_fat.sh x64
 ```
